@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use App\Models\Topic;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use Illuminate\Http\Request;
+use App\Http\Resources\TopicResource;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -39,6 +41,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'topics' => TopicResource::collection(Topic::orderBy('name', 'asc')->get()),
         ];
     }
 }
