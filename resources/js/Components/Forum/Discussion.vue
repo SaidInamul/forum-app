@@ -1,4 +1,5 @@
 <script setup>
+    import { Link } from '@inertiajs/vue3';
     defineProps({
         discussion : {
             type : Object
@@ -7,7 +8,7 @@
 </script>
 
 <template>
-    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <Link :href="route('discussion.show', discussion)" class="block bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 flex items-center space-x-6">
             <div class="flex-grow">
                 <div class="flex items-center space-x-3">
@@ -26,5 +27,5 @@
                 avatars
             </div>
         </div>
-    </div>
+    </Link>
 </template>
