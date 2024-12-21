@@ -50,6 +50,7 @@ defineProps({
                 :key="discussion.id"
                 :discussion="discussion"/>
                 <Pagination
+                class="!mt-6"
                 :pagination="discussions.meta"/>
             </div>
         </div>

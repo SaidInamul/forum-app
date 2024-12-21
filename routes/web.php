@@ -18,17 +18,19 @@ use App\Http\Controllers\ForumIndexController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/', ForumIndexController::class)->name('home');
-Route::get('/{discussion:slug}', [DiscussionController::class, 'show'])->name('discussion.show');
+Route::get('/forum', ForumIndexController::class);
+Route::get('/forum/{discussion:slug}', [DiscussionController::class, 'show'])
+->name('discussion.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

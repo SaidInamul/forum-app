@@ -1,10 +1,14 @@
 <script setup>
 import ForumLayout from '@/Layouts/ForumLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
+import Post from '@/Components/Forum/Post.vue'
 import { Head } from '@inertiajs/vue3'
 
 defineProps({
     discussion : {
+        type : Object
+    },
+    posts : {
         type : Object
     }
 })
@@ -36,6 +40,14 @@ defineProps({
                         </h1>
                     </div>
                 </div>
+            </div>
+            <div class="space-y-3">
+                <Post v-for="post in posts.data"
+                :key="post.id"
+                :post="post" />
+                <Pagination
+                class="!mt-6"
+                :pagination="posts.meta"/>
             </div>
         </div>
     </ForumLayout>

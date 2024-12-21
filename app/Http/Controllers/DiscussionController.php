@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\DiscussionResource;
 
 class DiscussionController extends Controller
@@ -40,7 +42,13 @@ class DiscussionController extends Controller
         //
         $discussion->load('topic');
         return inertia()->render('Forum/Show', [
-            'discussion' => DiscussionResource::make($discussion)
+            'discussion' => DiscussionResource::make($discussion),
+            'posts' => PostResource::collection(
+                Post::whereBelongsTo($discussion)
+                ->with(['user', 'discussion'])
+                ->oldest()
+                ->paginate(5)
+            )
         ]);
     }
 

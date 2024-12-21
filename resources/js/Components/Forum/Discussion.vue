@@ -1,10 +1,13 @@
 <script setup>
-    import { Link } from '@inertiajs/vue3';
-    defineProps({
+    import { Link } from '@inertiajs/vue3'
+    import { computed } from 'vue'
+    const props = defineProps({
         discussion : {
             type : Object
         }
     })
+
+    const participants = computed(() => props.discussion.participants.slice(0, 3))
 </script>
 
 <template>
@@ -22,9 +25,26 @@
                         {{ discussion.title }}
                     </h1>
                 </div>
+                <div class="mt-5 text-gray-500 text-sm line-clamp-1">
+                    {{ discussion.post.body_preview }}
+                </div>
+                <Link :href="route('discussion.show', discussion)" class="inline-block text-xs mt-3">
+                    last post by {{ discussion.latest_post.user?.username || '[user deleted]' }} <time
+                    :datetime="discussion.latest_post.created_at.datetime"
+                    :title="discussion.latest_post.created_at.datetime">
+                        {{ discussion.latest_post.created_at.human }}
+                    </time>
+                </Link>
             </div>
-            <div>
-                avatars
+            <div class="flex-shrink-0">
+                <div class="flex items-center justify-start -space-x-2">
+                    <img 
+                    :src="participant.avatar_url"
+                    v-for="participant in participants"
+                    :key="participant.id"
+                    class="h-6 w-6 rounded-full ring-2 ring-white first-of-type:w-7 first-of-type:h-7" :title="participant.username">
+                    <span class="!ml-2 text-sm text-gray-500" v-if="discussion.participants.length > 3">+ {{ discussion.participants.length - 3 }} more</span>
+                </div>
             </div>
         </div>
     </Link>

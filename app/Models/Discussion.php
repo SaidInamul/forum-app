@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Topic;
 use Illuminate\Database\Eloquent\Model;
@@ -26,11 +27,42 @@ class Discussion extends Model
         $query->orderBy('pinned_at', 'desc');
     }
 
+    public function scopeOrderByLastPost ($query) {
+        // grab the latest post by created_at
+        // order the discussion based on that timeline
+        $query->orderBy(
+            Post::select('created_at')
+            ->whereColumn('posts.discussion_id', 'discussions.id')
+            ->latest()
+            ->take(1),
+            'desc'
+        );
+    }
+
     public function user () {
         return $this->belongsTo(User::class);
     }
 
     public function topic () {
         return $this->belongsTo(Topic::class);
+    }
+
+    public function posts () {
+        return $this->hasMany(Post::class);
+    }
+
+    public function post () {
+        return $this->hasOne(Post::class)
+        ->whereNull('parent_id');
+    }
+
+    public function latestPost () {
+        return $this->hasOne(Post::class)
+        ->latestOfMany();
+    }
+
+    public function participants () {
+        return $this->hasManyThrough(User::class, Post::class, 'discussion_id', 'id', 'id', 'user_id')
+            ->distinct();
     }
 }
