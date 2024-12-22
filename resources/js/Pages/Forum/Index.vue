@@ -10,6 +10,9 @@ import { Head } from '@inertiajs/vue3'
 defineProps({
     discussions : {
         type : Object
+    },
+    query : {
+        type : Object
     }
 })
 </script>
@@ -21,7 +24,7 @@ defineProps({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
         <template #left>
-            <Navigation />
+            <Navigation :query="query"/>
         </template>
         <div class="space-y-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
