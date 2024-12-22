@@ -8,12 +8,16 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Resources\DiscussionResource;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
+use App\Http\QueryFilters\ParticipateQueryFilter;
+use App\Http\QueryFilters\MyDiscussionQueryFilter;
 
 class ForumIndexController extends Controller
 {
     protected function allowedFilters() {
         return [
-            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter())
+            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter()),
+            AllowedFilter::custom('mine', new MyDiscussionQueryFilter()),
+            AllowedFilter::custom('participate', new ParticipateQueryFilter()),
         ];
     }
 
@@ -27,7 +31,7 @@ class ForumIndexController extends Controller
                     ->withCount('replies')
                     ->orderByPinned()
                     ->orderByLastPost()
-                    ->paginate(1)
+                    ->paginate(7)
                     ->appends($request->query())
             )
         ]);
