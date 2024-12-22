@@ -3,6 +3,7 @@ import ForumLayout from '@/Layouts/ForumLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
 import Post from '@/Components/Forum/Post.vue'
 import { Head } from '@inertiajs/vue3'
+import pluralize from 'pluralize';
 
 defineProps({
     discussion : {
@@ -27,7 +28,7 @@ defineProps({
         </template>
         <div class="space-y-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-900 flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <span class="inline-flex rounded-lg bg-indigo-100 px-2 py-0.5 text-xs text-indigo-600">
                             {{ discussion.topic.name }}
@@ -38,6 +39,9 @@ defineProps({
                             </template>
                             {{ discussion.title }}
                         </h1>
+                    </div>
+                    <div class="text-sm">
+                        {{ pluralize('reply', discussion.replies_count, true) }}
                     </div>
                 </div>
             </div>

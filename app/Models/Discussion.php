@@ -65,4 +65,9 @@ class Discussion extends Model
         return $this->hasManyThrough(User::class, Post::class, 'discussion_id', 'id', 'id', 'user_id')
             ->distinct();
     }
+
+    public function replies () {
+        return $this->hasMany(Post::class)
+            ->whereNotNull('parent_id');
+    }
 }

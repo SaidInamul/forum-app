@@ -1,6 +1,7 @@
 <script setup>
     import { Link } from '@inertiajs/vue3'
     import { computed } from 'vue'
+    import pluralize from 'pluralize';
     const props = defineProps({
         discussion : {
             type : Object
@@ -36,7 +37,7 @@
                     </time>
                 </Link>
             </div>
-            <div class="flex-shrink-0">
+            <div class="flex-shrink-0 flex flex-col items-end">
                 <div class="flex items-center justify-start -space-x-2">
                     <img 
                     :src="participant.avatar_url"
@@ -44,6 +45,9 @@
                     :key="participant.id"
                     class="h-6 w-6 rounded-full ring-2 ring-white first-of-type:w-7 first-of-type:h-7" :title="participant.username">
                     <span class="!ml-2 text-sm text-gray-500" v-if="discussion.participants.length > 3">+ {{ discussion.participants.length - 3 }} more</span>
+                </div>
+                <div class="text-xs mt-3">
+                    {{ pluralize('reply', discussion.replies_count, true) }} 
                 </div>
             </div>
         </div>

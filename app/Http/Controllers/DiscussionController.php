@@ -41,6 +41,7 @@ class DiscussionController extends Controller
     {
         //
         $discussion->load('topic');
+        $discussion->loadCount('replies');
         return inertia()->render('Forum/Show', [
             'discussion' => DiscussionResource::make($discussion),
             'posts' => PostResource::collection(
