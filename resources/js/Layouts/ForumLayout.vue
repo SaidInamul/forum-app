@@ -1,5 +1,6 @@
 <script setup>
     import AuthenticatedLayout from './AuthenticatedLayout.vue';
+    import FixedFormWrapper from '@/Components/Forum/FixedFormWrapper.vue';
 </script>
 
 <template>
@@ -14,4 +15,5 @@
         </div>
 
     </AuthenticatedLayout>
+    <FixedFormWrapper/>
 </template>
