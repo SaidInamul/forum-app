@@ -35,13 +35,16 @@ const filterTopic = (e) => {
         <!-- <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
+        <!-- Filter side -->
         <template #left>
             <Navigation :query="query"/>
         </template>
+        <!-- End filter side -->
+         <!-- Main -->
         <div class="space-y-6">
+            <!-- Main header -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ query }}
                     <div>
                         <InputLabel for="topic" value="Topic" class="sr-only"/>
                         <Select id="topic" v-on:change="filterTopic">
@@ -60,6 +63,8 @@ const filterTopic = (e) => {
                     </div>
                 </div>
             </div>
+            <!-- End main header -->
+             <!-- List of discussion -->
             <div class="space-y-3" v-if="discussions.data.length">
                 <Discussion
                 v-for="discussion in discussions.data"
@@ -69,6 +74,8 @@ const filterTopic = (e) => {
                 class="!mt-6"
                 :pagination="discussions.meta"/>
             </div>
+            <!-- End list of discussion -->
         </div>
+        <!-- End main -->
     </ForumLayout>
 </template>
