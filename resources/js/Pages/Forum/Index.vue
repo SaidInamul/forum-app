@@ -5,9 +5,11 @@ import InputLabel from '@/Components/InputLabel.vue'
 import Pagination from '@/Components/Pagination.vue'
 import Navigation from '@/Components/Navigation.vue'
 import Discussion from '@/Components/Forum/Discussion.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 import { Head, router } from '@inertiajs/vue3'
 import _omitBy from 'lodash.omitby'
 import _isEmpty from 'lodash.isempty'
+import useCreateDiscussion from '@/Composables/useCreateDiscussion'
 
 defineProps({
     discussions : {
@@ -26,7 +28,7 @@ const filterTopic = (e) => {
         preserveScroll : true
     })
 }
-
+    const { showCreateDiscussionForm } = useCreateDiscussion()
 </script>
 
 <template>
@@ -37,6 +39,12 @@ const filterTopic = (e) => {
         </template> -->
         <!-- Filter side -->
         <template #left>
+            <PrimaryButton
+            @click="showCreateDiscussionForm"
+            v-if="$page.props.auth.user"
+            class="w-full flex justify-center h-10">
+                Start a discussion
+            </PrimaryButton>
             <Navigation :query="query"/>
         </template>
         <!-- End filter side -->

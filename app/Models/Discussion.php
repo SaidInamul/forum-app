@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Topic;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,11 +14,18 @@ class Discussion extends Model
     use HasFactory;
     protected $fillable = [
         'title',
-        'slug',
-        'topic_id',
-        'user_id',
-        'pinned_at',
+        'slug'
     ];
+
+    protected static function booted() {
+        static::created(function ($discussion) {
+            $discussion->update(['slug' => $discussion->title]);
+        });
+    }
+
+    public function setSlugAttribute ($value) {
+        $this->attributes['slug'] = $this->id . '-' . Str::slug($value);
+    }
 
     public function isPinned() {
         return !is_null($this->pinned_at);

@@ -6,49 +6,62 @@
     import PrimaryButton from '../PrimaryButton.vue';
     import Select from '../Select.vue';
     import Textarea from '../Textarea.vue'
+    import useCreateDiscussion from '@/Composables/useCreateDiscussion';
+
+    const { visible, form, hideCreateDiscussionForm } = useCreateDiscussion()
+    const createDisucssion = () => {
+        form.post(route('discussion.store'), {
+            onSuccess : () => {
+                form.reset()
+                hideCreateDiscussionForm()
+            }
+
+        })
+    }
 </script>
 
 <template>
-    <FixedFormWrapper>
+    <FixedFormWrapper v-if="visible" @submit.prevent="createDisucssion" :form="form">
         <template #header>
-            <div class="fflex items-center justify-between">
+            <div class="flex items-center justify-between">
                 <h1 class="text-lg font-medium">New discussion</h1>
                 <!-- <button v-on:click="hideCreateDiscussionForm">
                     <Svg name="icon-close" class="h-5 w-5"></Svg>
                 </button> -->
+                <button @click="hideCreateDiscussionForm">&times;</button>
             </div>
         </template>
 
-        <template #main>
+        <template #main="{ markdownPreviewEnabled }">
             <div class="flex items-start space-x-3">
                 <div class="flex-grow">
                     <div>
                         <InputLabel for="title" value="Title" class="sr-only" />
-                        <TextInput id="title" type="text" class="w-full" placeholder="Discussion title" />
-                        <!-- <InputError class="mt-2" :message="form.errors.title" /> -->
+                        <TextInput id="title" type="text" class="w-full" placeholder="Discussion title" v-model="form.title"/>
+                        <InputError class="mt-2" :message="form.errors.title" />
                     </div>
                 </div>
                 <div>
                     <InputLabel for="topic" value="Topic" class="sr-only" />
-                    <Select id="topic">
+                    <select id="topic" v-model="form.topic" class="border-gray-300 focus:border-rose-500 focus:ring-rose-500 rounded-md shadow-sm">
                             <option 
                             value="">
                                 Choose a topic
                             </option>
                             <option 
-                            :value="topic.slug"
+                            :value="topic.id"
                             v-for="topic in $page.props.topics"
                             :key="topic.id"
                             >
                                 {{ topic.name }}
                             </option>
-                        </Select>
-                    <!-- <InputError class="mt-2" :message="form.errors.topic_id" /> -->
+                        </select>
+                    <InputError class="mt-2" :message="form.errors.topic" />
                 </div>
             </div>
             <div class="mt-4">
                 <InputLabel for="body" value="Body" class="sr-only" />
-                <Textarea id="body" class="w-full h-48 align-top" />
+                <Textarea id="body" class="w-full h-48 align-top" v-model="form.body" v-if="!markdownPreviewEnabled"/>
                 <!-- <Mentionable :keys="['@']" offset="6" v-on:search="mentionSearch" :items="mentionSearchResults" v-if="!markdownPreviewEnabled">
                     
 
@@ -56,7 +69,7 @@
                         <div class="mention-item">No username found</div>
                     </template>
                 </Mentionable> -->
-                <!-- <InputError class="mt-2" :message="form.errors.body" /> -->
+                <InputError class="mt-2" :message="form.errors.body" />
             </div>
         </template>
 

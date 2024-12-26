@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Topic;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\DiscussionResource;
+use App\Http\Requests\StoreDiscussionRequest;
 
 class DiscussionController extends Controller
 {
@@ -29,20 +31,38 @@ class DiscussionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDiscussionRequest $request)
     {
         //
+        $discussion = Discussion::make([
+            'title' => $request->title
+        ]);
+
+        $discussion->user()->associate($request->user());
+        $discussion->topic()->associate(Topic::find($request->topic));
+
+        $discussion->save();
+
+        $post = Post::make([
+            'body' => $request->body
+        ]);
+
+        $post->user()->associate($request->user());
+        $discussion->posts()->save($post);
+
+        return redirect()->route('discussion.show', $discussion);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Discussion $discussion)
+    public function show(Request $request, Discussion $discussion)
     {
         //
         $discussion->load('topic');
         $discussion->loadCount('replies');
         return inertia()->render('Forum/Show', [
+            'query' => (object )$request->query(),
             'discussion' => DiscussionResource::make($discussion),
             'posts' => PostResource::collection(
                 Post::whereBelongsTo($discussion)
