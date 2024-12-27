@@ -4,9 +4,9 @@
     import InputLabel from '../InputLabel.vue';
     import InputError from '../InputError.vue';
     import PrimaryButton from '../PrimaryButton.vue';
-    import Select from '../Select.vue';
     import Textarea from '../Textarea.vue'
     import useCreateDiscussion from '@/Composables/useCreateDiscussion';
+    import Svg from '../Svg.vue';
 
     const { visible, form, hideCreateDiscussionForm } = useCreateDiscussion()
     const createDisucssion = () => {
@@ -25,10 +25,9 @@
         <template #header>
             <div class="flex items-center justify-between">
                 <h1 class="text-lg font-medium">New discussion</h1>
-                <!-- <button v-on:click="hideCreateDiscussionForm">
-                    <Svg name="icon-close" class="h-5 w-5"></Svg>
-                </button> -->
-                <button @click="hideCreateDiscussionForm">&times;</button>
+                <button v-on:click="hideCreateDiscussionForm">
+                    <Svg name="icon_close" class="h-5 w-5"></Svg>
+                </button>
             </div>
         </template>
 
