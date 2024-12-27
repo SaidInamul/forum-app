@@ -33,6 +33,10 @@ class DiscussionPolicy
         return true;
     }
 
+    public function reply (User $user, Discussion $discussion) {
+        return true;
+    }
+
     /**
      * Determine whether the user can update the model.
      */

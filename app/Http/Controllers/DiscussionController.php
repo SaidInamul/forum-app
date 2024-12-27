@@ -59,7 +59,7 @@ class DiscussionController extends Controller
     public function show(Request $request, Discussion $discussion)
     {
         //
-        $discussion->load('topic');
+        $discussion->load('topic', 'post.discussion');
         $discussion->loadCount('replies');
         return inertia()->render('Forum/Show', [
             'query' => (object )$request->query(),

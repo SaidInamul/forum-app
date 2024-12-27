@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Discussion;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,9 @@ class Post extends Model
 
     public function user () {
         return $this->belongsTo(User::class);
+    }
+
+    public function parent () {
+        return $this->belongsTo(Post::class, 'parent_id');
     }
 }

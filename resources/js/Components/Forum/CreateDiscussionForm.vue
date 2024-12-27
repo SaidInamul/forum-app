@@ -25,7 +25,7 @@
         <template #header>
             <div class="flex items-center justify-between">
                 <h1 class="text-lg font-medium">New discussion</h1>
-                <button v-on:click="hideCreateDiscussionForm">
+                <button type="button" v-on:click="hideCreateDiscussionForm">
                     <Svg name="icon_close" class="h-5 w-5"></Svg>
                 </button>
             </div>

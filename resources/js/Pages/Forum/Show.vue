@@ -1,22 +1,25 @@
 <script setup>
-import ForumLayout from '@/Layouts/ForumLayout.vue'
-import Pagination from '@/Components/Pagination.vue'
-import Navigation from '@/Components/Navigation.vue'
-import Post from '@/Components/Forum/Post.vue'
-import { Head } from '@inertiajs/vue3'
-import pluralize from 'pluralize';
+    import ForumLayout from '@/Layouts/ForumLayout.vue'
+    import Pagination from '@/Components/Pagination.vue'
+    import Navigation from '@/Components/Navigation.vue'
+    import PrimaryButton from '@/Components/PrimaryButton.vue'
+    import Post from '@/Components/Forum/Post.vue'
+    import { Head } from '@inertiajs/vue3'
+    import pluralize from 'pluralize';
+    import useCreatePost from '@/Composables/useCreatePost'
 
-defineProps({
-    discussion : {
-        type : Object
-    },
-    posts : {
-        type : Object
-    },
-    query : {
-        type : Object
-    }
-})
+    defineProps({
+        discussion : {
+            type : Object
+        },
+        posts : {
+            type : Object
+        },
+        query : {
+            type : Object
+        }
+    })
+    const { showCreatePostForm } = useCreatePost()
 </script>
 
 <template>
@@ -26,6 +29,12 @@ defineProps({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
         <template #left>
+            <PrimaryButton
+            @click="showCreatePostForm(discussion)"
+            v-if="discussion.user_can.reply"
+            class="w-full flex justify-center h-10">
+                start to reply
+            </PrimaryButton>
             <Navigation :query="query"/>
         </template>
         <div class="space-y-6">

@@ -1,6 +1,7 @@
 <script setup>
     import AuthenticatedLayout from './AuthenticatedLayout.vue';
     import CreateDiscussionForm from '@/Components/Forum/CreateDiscussionForm.vue';
+    import CreatePostForm from '@/Components/Forum/CreatePostForm.vue';
 </script>
 
 <template>
@@ -16,4 +17,5 @@
 
     </AuthenticatedLayout>
     <CreateDiscussionForm/>
+    <CreatePostForm/>
 </template>
