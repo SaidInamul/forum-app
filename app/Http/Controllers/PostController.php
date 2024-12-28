@@ -80,5 +80,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        Gate::authorize('delete', $post);
+        $post->delete();
+        return back();
     }
 }

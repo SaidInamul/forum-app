@@ -1,7 +1,7 @@
 <script setup>
     import Svg from '../Svg.vue';
     import useCreatePost from '@/Composables/useCreatePost';
-    import { useForm } from '@inertiajs/vue3';
+    import { useForm, router } from '@inertiajs/vue3';
     import { ref } from 'vue';
     import Textarea from '../Textarea.vue';
     import InputLabel from '../InputLabel.vue';
@@ -26,6 +26,14 @@
                 editing.value = false
             }
         })
+    }
+
+    const deletePost = () => {
+        if (window.confirm('Are you sure?')) {
+            router.delete(route('post.destroy', props.post), {
+                preserveScroll: true
+            })
+        }
     }
 
     const { showCreatePostForm } = useCreatePost()
@@ -73,9 +81,9 @@
                 <li v-if="post.user_can.update">
                     <button type="button" @click="editing = true" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_edit"></Svg></button>
                 </li>
-                <!--<li v-if="post.user_can.delete">
-                    <button v-on:click="deletePost" class="text-indigo-500 text-sm">Delete</button>
-                </li> -->
+                <li v-if="post.user_can.delete">
+                    <button @click="deletePost" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_delete"></Svg></button>
+                </li>
                 <!-- <li v-if="post.discussion.user_can.solve">
                     <button
                         class="text-indigo-500 text-sm"

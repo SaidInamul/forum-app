@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-3">
+            <div class="space-y-3" v-if="posts.data.length">
                 <Post v-for="post in posts.data"
                 :key="post.id"
                 :post="post" />

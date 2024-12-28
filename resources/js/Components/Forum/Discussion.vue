@@ -26,10 +26,10 @@
                         {{ discussion.title }}
                     </h1>
                 </div>
-                <div class="mt-5 text-gray-500 text-sm line-clamp-1">
+                <div class="mt-5 text-gray-500 text-sm line-clamp-1" v-if="discussion.post">
                     {{ discussion.post.body_preview }}
                 </div>
-                <Link :href="`${route('discussion.show', discussion)}?post=${discussion.latest_post.id}`" class="inline-block text-xs mt-3">
+                <Link :href="`${route('discussion.show', discussion)}?post=${discussion.latest_post.id}`" class="inline-block text-xs mt-3" v-if="discussion.post">
                     last post by {{ discussion.latest_post.user?.username || '[user deleted]' }} <time
                     :datetime="discussion.latest_post.created_at.datetime"
                     :title="discussion.latest_post.created_at.datetime">

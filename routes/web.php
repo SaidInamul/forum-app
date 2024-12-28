@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/forum', [DiscussionController::class, 'store'])->name('discussion.store');
     Route::post('/forum/{discussion:slug}', [PostController::class, 'store'])->name('post.store');
     Route::patch('/forum/{post}', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/forum/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
 require __DIR__.'/auth.php';
