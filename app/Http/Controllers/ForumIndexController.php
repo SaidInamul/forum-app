@@ -8,6 +8,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Resources\DiscussionResource;
 use App\Http\QueryFilters\TopicQueryFilter;
+use App\Http\QueryFilters\SolvedQueryFilter;
+use App\Http\QueryFilters\UnsolvedQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Http\QueryFilters\ParticipateQueryFilter;
 use App\Http\QueryFilters\MyDiscussionQueryFilter;
@@ -20,6 +22,8 @@ class ForumIndexController extends Controller
             AllowedFilter::custom('topic', new TopicQueryFilter()),
             AllowedFilter::custom('mine', new MyDiscussionQueryFilter()),
             AllowedFilter::custom('participate', new ParticipateQueryFilter()),
+            AllowedFilter::custom('solved', new SolvedQueryFilter()),
+            AllowedFilter::custom('unsolved', new UnsolvedQueryFilter()),
         ];
     }
 
