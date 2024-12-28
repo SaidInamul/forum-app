@@ -51,6 +51,7 @@ class DiscussionPolicy
     public function delete(User $user, Discussion $discussion): bool
     {
         //
+        return $user->id == $discussion->user_id;
     }
 
     /**

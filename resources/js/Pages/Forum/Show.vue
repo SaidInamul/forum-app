@@ -4,7 +4,7 @@
     import Navigation from '@/Components/Navigation.vue'
     import PrimaryButton from '@/Components/PrimaryButton.vue'
     import Post from '@/Components/Forum/Post.vue'
-    import { Head } from '@inertiajs/vue3'
+    import { Head, router } from '@inertiajs/vue3'
     import pluralize from 'pluralize';
     import useCreatePost from '@/Composables/useCreatePost'
     import { nextTick, onMounted, onUpdated } from 'vue'
@@ -42,6 +42,12 @@
         scrollToPost(props.postId)
     })
 
+    const deleteDiscussion = () => {
+        if (window.confirm('Are you sure?')) {
+            router.delete(route('discussion.destroy', props.discussion))
+        }
+    }
+
     const { showCreatePostForm } = useCreatePost()
 </script>
 
@@ -73,6 +79,11 @@
                             </template>
                             {{ discussion.title }}
                         </h1>
+                        <ul>
+                            <li v-if="discussion.user_can.delete">
+                                <button class="text-rose-500 text-sm" @click="deleteDiscussion">Delete</button>
+                            </li>
+                        </ul>
                     </div>
                     <div class="text-sm">
                         {{ pluralize('reply', discussion.replies_count, true) }}

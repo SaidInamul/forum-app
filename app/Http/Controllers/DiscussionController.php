@@ -7,6 +7,7 @@ use App\Models\Topic;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\DiscussionResource;
 use App\Http\Requests\StoreDiscussionRequest;
 
@@ -105,6 +106,10 @@ class DiscussionController extends Controller
     public function destroy(Discussion $discussion)
     {
         //
+        Gate::authorize('delete', $discussion);
+        
+        $discussion->delete();
+        return redirect()->route('home');
     }
 
     protected function getPageForPost(Discussion $discussion, $postId) {
