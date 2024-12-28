@@ -78,4 +78,8 @@ class Discussion extends Model
         return $this->hasMany(Post::class)
             ->whereNotNull('parent_id');
     }
+
+    public function solution () {
+        return $this->belongsTo(Post::class, 'solution_post_id');
+    }
 }

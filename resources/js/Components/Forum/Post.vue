@@ -11,6 +11,9 @@
     const props = defineProps({
         post : {
             type : Object
+        },
+        isSolution : {
+            type : Boolean
         }
     })
 
@@ -42,7 +45,8 @@
 <template>
     <div 
     :id="`post-${post.id}`"
-    class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900 flex items-start space-x-3">
+    class="relative bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900 flex items-start space-x-3 border-2"
+    :class="{ 'border-rose-700': isSolution, 'border-transparent': !isSolution }">
         <div class="w-7 flex-shrink-0">
             <img :src="post.user?.avatar_url" class="rounded-full w-7 h-7" v-if="post.user">
         </div>
@@ -76,7 +80,6 @@
             <ul class="flex items-center justify-end space-x-3 mt-6">
                 <li v-if="post.discussion.user_can.reply">
                     <button type="button" @click="showCreatePostForm(post.discussion)" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_reply"></Svg></button>
-                    <!-- <button v-on:click="showCreatePostForm(post.discussion, post.user)" class="text-indigo-500 text-sm">Reply</button> -->
                 </li>
                 <li v-if="post.user_can.update">
                     <button type="button" @click="editing = true" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_edit"></Svg></button>
@@ -84,15 +87,21 @@
                 <li v-if="post.user_can.delete">
                     <button @click="deletePost" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_delete"></Svg></button>
                 </li>
-                <!-- <li v-if="post.discussion.user_can.solve">
+                <li v-if="post.discussion.user_can.solve">
                     <button
-                        class="text-indigo-500 text-sm"
-                        v-on:click="router.patch(route('discussions.solution.patch', post.discussion), { post_id: isSolution ? null : post.id }, { preserveScroll: true })"
+                        class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"
+                        v-on:click="router.patch(route('discussion.solution.patch', post.discussion), { post_id: isSolution ? null : post.id }, { preserveScroll: true })"
                     >
-                        {{ isSolution ? 'Unmark' : 'Mark' }} best solution
+                    <Svg name="icon_solved" v-if="isSolution"></Svg>
+                    <Svg name="icon_solve" v-else></Svg>
                     </button>
-                </li> -->
+                </li>
             </ul>
+        </div>
+        <div 
+        class="absolute right-0 top-0 bg-rose-700 text-rose-200 px-3 py-1 text-xs uppercase tracking-wide font-semibold rounded-bl shadow-sm" 
+        v-if="isSolution">
+            Best answer
         </div>
     </div>
 </template>

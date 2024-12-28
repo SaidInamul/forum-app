@@ -15,20 +15,11 @@ class DiscussionController extends Controller
 {
     protected const POSTS_PER_PAGE = 5;
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // Already done in ForumIndexController
-    }
+    protected function getPageForPost(Discussion $discussion, $postId) {
+        $index = ($discussion->posts->search(fn ($post) => $post->id == $postId));
+        $page = (int) ceil(($index + 1) / self::POSTS_PER_PAGE);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $page;
     }
 
     /**
@@ -69,7 +60,7 @@ class DiscussionController extends Controller
                 'postId' => $postId
             ]);
         }
-        $discussion->load('topic', 'post.discussion');
+        $discussion->load('topic', 'post.discussion', 'solution');
         $discussion->loadCount('replies');
         return inertia()->render('Forum/Show', [
             'query' => (object )$request->query(),
@@ -82,14 +73,6 @@ class DiscussionController extends Controller
             ),
             'postId' => (int) $request->postId,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Discussion $discussion)
-    {
-        //
     }
 
     /**
@@ -112,10 +95,10 @@ class DiscussionController extends Controller
         return redirect()->route('home');
     }
 
-    protected function getPageForPost(Discussion $discussion, $postId) {
-        $index = ($discussion->posts->search(fn ($post) => $post->id == $postId));
-        $page = (int) ceil(($index + 1) / self::POSTS_PER_PAGE);
+    public function solution (Request $request, Discussion $discussion) {
+        $discussion->solution()->associate(Post::find($request->post_id));
+        $discussion->save();
 
-        return $page;
+        return back();
     }
 }

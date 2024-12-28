@@ -9,22 +9,6 @@ use Illuminate\Auth\Access\Response;
 class DiscussionPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Discussion $discussion): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
@@ -54,19 +38,10 @@ class DiscussionPolicy
         return $user->id == $discussion->user_id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Discussion $discussion): bool
+    public function solve(User $user, Discussion $discussion): bool
     {
         //
+        return $user->id == $discussion->user_id;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Discussion $discussion): bool
-    {
-        //
-    }
 }
