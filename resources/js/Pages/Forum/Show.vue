@@ -7,8 +7,10 @@
     import { Head } from '@inertiajs/vue3'
     import pluralize from 'pluralize';
     import useCreatePost from '@/Composables/useCreatePost'
+    import { nextTick, onMounted, onUpdated } from 'vue'
+    import VueScrollTo from 'vue-scrollto'
 
-    defineProps({
+    const props = defineProps({
         discussion : {
             type : Object
         },
@@ -17,8 +19,29 @@
         },
         query : {
             type : Object
+        },
+        postId : {
+            type : Number
         }
     })
+
+    const scrollToPost = (postId) => {
+        if (!postId) {
+            return
+        }
+        nextTick (() => {
+            VueScrollTo.scrollTo(`#post-${postId}`, 500, {offset : -50})
+        })
+    }
+
+    onMounted(() => {
+        scrollToPost(props.postId)
+    })
+
+    onUpdated(() => {
+        scrollToPost(props.postId)
+    })
+
     const { showCreatePostForm } = useCreatePost()
 </script>
 

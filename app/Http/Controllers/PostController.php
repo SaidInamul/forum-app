@@ -40,7 +40,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect()->route('discussion.show', $discussion);
+        return redirect(route('discussion.show', $discussion) . '?post=' . $post->id);
     }
 
     /**

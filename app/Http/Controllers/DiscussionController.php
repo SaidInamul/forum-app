@@ -12,6 +12,8 @@ use App\Http\Requests\StoreDiscussionRequest;
 
 class DiscussionController extends Controller
 {
+    protected const POSTS_PER_PAGE = 5;
+
     /**
      * Display a listing of the resource.
      */
@@ -59,6 +61,13 @@ class DiscussionController extends Controller
     public function show(Request $request, Discussion $discussion)
     {
         //
+        if ($postId = $request->get('post')) {
+            return redirect()->route('discussion.show', [
+                'discussion' => $discussion,
+                'page' => $this->getPageForpost($discussion, $postId),
+                'postId' => $postId
+            ]);
+        }
         $discussion->load('topic', 'post.discussion');
         $discussion->loadCount('replies');
         return inertia()->render('Forum/Show', [
@@ -68,8 +77,9 @@ class DiscussionController extends Controller
                 Post::whereBelongsTo($discussion)
                 ->with(['user', 'discussion'])
                 ->oldest()
-                ->paginate(5)
-            )
+                ->paginate(self::POSTS_PER_PAGE)
+            ),
+            'postId' => (int) $request->postId,
         ]);
     }
 
@@ -95,5 +105,12 @@ class DiscussionController extends Controller
     public function destroy(Discussion $discussion)
     {
         //
+    }
+
+    protected function getPageForPost(Discussion $discussion, $postId) {
+        $index = ($discussion->posts->search(fn ($post) => $post->id == $postId));
+        $page = (int) ceil(($index + 1) / self::POSTS_PER_PAGE);
+
+        return $page;
     }
 }
