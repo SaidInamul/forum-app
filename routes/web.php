@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/forum', [DiscussionController::class, 'store'])->name('discussion.store');
     Route::post('/forum/{discussion:slug}', [PostController::class, 'store'])->name('post.store');
+    Route::patch('/forum/{post}', [PostController::class, 'update'])->name('post.update');
 });
 
 require __DIR__.'/auth.php';

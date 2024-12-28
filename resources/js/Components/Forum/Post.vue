@@ -1,11 +1,32 @@
 <script setup>
     import Svg from '../Svg.vue';
     import useCreatePost from '@/Composables/useCreatePost';
-    defineProps({
+    import { useForm } from '@inertiajs/vue3';
+    import { ref } from 'vue';
+    import Textarea from '../Textarea.vue';
+    import InputLabel from '../InputLabel.vue';
+    import InputError from '../InputError.vue';
+    import PrimaryButton from '../PrimaryButton.vue';
+
+    const props = defineProps({
         post : {
             type : Object
         }
     })
+
+    const editing = ref(false)
+    const editForm = useForm({
+        body : props.post.body
+    })
+
+    const editPost = () => {
+        editForm.patch(route('post.update', props.post), {
+            preserveScroll : true,
+            onSuccess : () => {
+                editing.value = false
+            }
+        })
+    }
 
     const { showCreatePostForm } = useCreatePost()
 </script>
@@ -30,7 +51,18 @@
                 </div>
             </div>
             <div class="mt-3">
-                <div v-html="post.body_markdown" class="markdown"></div>
+                <form v-on:submit.prevent="editPost" v-if="editing == true">
+                    <InputLabel for="body" value="Body" class="sr-only" />
+                    <Textarea id="body" class="w-full h-48 align-top" v-model="editForm.body" required autofocus/>
+                    <InputError class="mt-2" :message="editForm.errors.body" />
+                    <div class="flex items-center space-x-2 mt-3">
+                        <PrimaryButton>
+                            Save
+                        </PrimaryButton>
+                        <button type="button" @click="editing = false" class="text-sm">cancel</button>
+                    </div>
+                </form>
+                <div v-else v-html="post.body_markdown"  class="markdown"></div>
             </div>
 
             <ul class="flex items-center justify-end space-x-3 mt-6">
@@ -38,10 +70,10 @@
                     <button type="button" @click="showCreatePostForm(post.discussion)" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_reply"></Svg></button>
                     <!-- <button v-on:click="showCreatePostForm(post.discussion, post.user)" class="text-indigo-500 text-sm">Reply</button> -->
                 </li>
-                <!-- <li v-if="post.user_can.edit">
-                    <button v-on:click="editing = true" class="text-indigo-500 text-sm">Edit</button>
+                <li v-if="post.user_can.update">
+                    <button type="button" @click="editing = true" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_edit"></Svg></button>
                 </li>
-                <li v-if="post.user_can.delete">
+                <!--<li v-if="post.user_can.delete">
                     <button v-on:click="deletePost" class="text-indigo-500 text-sm">Delete</button>
                 </li> -->
                 <!-- <li v-if="post.discussion.user_can.solve">

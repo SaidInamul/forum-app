@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
@@ -65,6 +66,12 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        Gate::authorize('update', $post);
+        $fields = $request->validate([
+            'body' => ['required', 'max:255']
+        ]);
+        $post->update($fields);
+        return back();
     }
 
     /**
