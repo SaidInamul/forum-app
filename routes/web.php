@@ -35,17 +35,19 @@ Route::get('/forum/{discussion:slug}', [DiscussionController::class, 'show'])->n
 Route::post('/markdown', MarkdownController::class)->name('markdown');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //Discussion
     Route::post('/forum', [DiscussionController::class, 'store'])->name('discussion.store');
-    Route::delete('/forum/{discussion}', [DiscussionController::class, 'destroy'])->name('discussion.destroy');
+    Route::delete('/forum/discussion/{discussion}', [DiscussionController::class, 'destroy'])->name('discussion.destroy');
     Route::patch('/forum/{discussion}/solution', [DiscussionController::class, 'solution'])->name('discussion.solution.patch');
 
     Route::post('/forum/{discussion:slug}', [PostController::class, 'store'])->name('post.store');
     Route::patch('/forum/{post}', [PostController::class, 'update'])->name('post.update');
-    Route::delete('/forum/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::delete('/forum/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
 require __DIR__.'/auth.php';

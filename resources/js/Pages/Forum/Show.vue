@@ -7,7 +7,7 @@
     import { Head, router } from '@inertiajs/vue3'
     import pluralize from 'pluralize';
     import useCreatePost from '@/Composables/useCreatePost'
-    import { nextTick, onMounted, onUpdated } from 'vue'
+    import { nextTick, onMounted, watch } from 'vue'
     import VueScrollTo from 'vue-scrollto'
 
     const props = defineProps({
@@ -38,8 +38,8 @@
         scrollToPost(props.postId)
     })
 
-    onUpdated(() => {
-        scrollToPost(props.postId)
+    watch(() => props.postId, (postId) => {
+        scrollToPost(postId)
     })
 
     const deleteDiscussion = () => {
