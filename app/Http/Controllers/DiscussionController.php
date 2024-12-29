@@ -88,7 +88,7 @@ class DiscussionController extends Controller
     }
 
     public function solution (Request $request, Discussion $discussion) {
-        $discussion->solution()->associate(Post::find($request->post_id));
+        $discussion->solution()->associate($discussion->posts()->find($request->post_id));
         $discussion->save();
 
         return back();

@@ -87,7 +87,7 @@
                 <li v-if="post.user_can.delete">
                     <button @click="deletePost" class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"><Svg name="icon_delete"></Svg></button>
                 </li>
-                <li v-if="post.discussion.user_can.solve">
+                <li v-if="post.discussion.user_can.solve && post.parent_id">
                     <button
                         class="rounded-md p-1 bg-rose-100 hover:bg-rose-200"
                         v-on:click="router.patch(route('discussion.solution.patch', post.discussion), { post_id: isSolution ? null : post.id }, { preserveScroll: true })"

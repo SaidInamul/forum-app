@@ -25,6 +25,7 @@ class PostResource extends JsonResource
             'body_preview' => Str::limit($this->body, 200),
             'user' => PublicUserResource::make($this->whenLoaded('user')),
             'discussion' => DiscussionResource::make($this->whenLoaded('discussion')),
+            'parent_id' => $this->parent_id,
             'created_at' => DateTimeResource::make($this->created_at),
             'user_can' => [
                 'update' => auth()->user()?->can('update', $this->resource),
