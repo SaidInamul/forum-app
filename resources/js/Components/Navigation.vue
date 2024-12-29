@@ -33,6 +33,9 @@
                     <li>
                         <Link href="/?filter[participate]=1" :class="{ 'font-bold' : query.filter?.participate }">Participating</Link>
                     </li>
+                    <li>
+                        <Link href="/?filter[mentioned]=1" :class="{ 'font-bold' : query.filter?.mentioned }">Mentioned</Link>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -5,9 +5,12 @@
     import PrimaryButton from '../PrimaryButton.vue';
     import Textarea from '../Textarea.vue'
     import useCreatePost from '@/Composables/useCreatePost';
+    import useSearchMention from '@/Composables/useSearchMention';
     import Svg from '../Svg.vue';
+    import { Mentionable } from 'vue-mention';
 
     const { visible, form, hideCreatePostForm, discussion } = useCreatePost()
+    const { mentionSearch, mentionSearchResult } = useSearchMention()
     const createPost = () => {
         form.post(route('post.store', discussion.value), {
             onSuccess : () => {
@@ -32,14 +35,14 @@
         <template #main="{ markdownPreviewEnabled }">
             <div>
                 <InputLabel for="body" value="Body" class="sr-only" />
-                <Textarea id="body" class="w-full h-48 align-top" v-model="form.body" v-if="!markdownPreviewEnabled"/>
-                <!-- <Mentionable :keys="['@']" offset="6" v-on:search="mentionSearch" :items="mentionSearchResults" v-if="!markdownPreviewEnabled">
-                    
-
-                    <template #no-result>
-                        <div class="mention-item">No username found</div>
-                    </template>
-                </Mentionable> -->
+                <Mentionable 
+                class="offset-6"
+                v-on:search="mentionSearch"
+                :keys="['@']"
+                :items="mentionSearchResult"
+                >
+                    <Textarea id="body" class="w-full h-48 align-top" v-model="form.body" v-if="!markdownPreviewEnabled"/>
+                </Mentionable>
                 <InputError class="mt-2" :message="form.errors.body" />
             </div>
         </template>
