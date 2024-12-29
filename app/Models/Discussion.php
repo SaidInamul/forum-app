@@ -6,12 +6,15 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Topic;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Discussion extends Model
 {
     use HasFactory;
+    use Searchable;
+
     protected $fillable = [
         'title',
         'slug'
@@ -81,5 +84,9 @@ class Discussion extends Model
 
     public function solution () {
         return $this->belongsTo(Post::class, 'solution_post_id');
+    }
+
+    public function toSearchableArray () {
+        return $this->only('id', 'title');
     }
 }
