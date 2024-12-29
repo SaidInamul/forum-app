@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Discussion;
+use App\Models\UserMention;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,9 @@ class User extends Authenticatable
 
     public function discussions () {
         return $this->hasMany(Discussion::class);
+    }
+
+    public function mention () {
+        return $this->hasOne(UserMention::class, 'id');
     }
 }

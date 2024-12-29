@@ -6,9 +6,12 @@
     import PrimaryButton from '../PrimaryButton.vue';
     import Textarea from '../Textarea.vue'
     import useCreateDiscussion from '@/Composables/useCreateDiscussion';
+    import useSearchMention from '@/Composables/useSearchMention';
     import Svg from '../Svg.vue';
+    import { Mentionable } from 'vue-mention';
 
     const { visible, form, hideCreateDiscussionForm } = useCreateDiscussion()
+    const { mentionSearch, mentionSearchResult } = useSearchMention()
     const createDisucssion = () => {
         form.post(route('discussion.store'), {
             onSuccess : () => {
@@ -18,6 +21,7 @@
 
         })
     }
+
 </script>
 
 <template>
@@ -60,7 +64,15 @@
             </div>
             <div class="mt-4">
                 <InputLabel for="body" value="Body" class="sr-only" />
-                <Textarea id="body" class="w-full h-48 align-top" v-model="form.body" v-if="!markdownPreviewEnabled"/>
+                <Mentionable 
+                class="offset-6"
+                v-on:search="mentionSearch"
+                :keys="['@']"
+                :items="mentionSearchResult"
+                >
+                    <Textarea id="body" class="w-full h-48 align-top" v-model="form.body" v-if="!markdownPreviewEnabled"/>
+                </Mentionable>
+                
                 <!-- <Mentionable :keys="['@']" offset="6" v-on:search="mentionSearch" :items="mentionSearchResults" v-if="!markdownPreviewEnabled">
                     
 
