@@ -1,3 +1,16 @@
+## Example app (screeshot)
+<img width="1440" alt="Screenshot 2024-12-30 at 8 51 18 PM" src="https://github.com/user-attachments/assets/35e8949b-3329-4337-b04e-fe2b02859b7f" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 51 37 PM" src="https://github.com/user-attachments/assets/17244a85-3435-4bac-8e56-3f62e54dd283" />
+<img width="1464" alt="Screenshot 2024-12-30 at 8 51 06 PM" src="https://github.com/user-attachments/assets/c68df9df-e9d9-45f4-8f49-bcce7c4b6a79" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 55 48 PM" src="https://github.com/user-attachments/assets/487d2557-e414-4c78-ad55-d8c83633c175" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 55 23 PM" src="https://github.com/user-attachments/assets/e3f8f261-40bc-4107-82a0-cc3eeddebf30" />
+<img width="1464" alt="Screenshot 2024-12-30 at 8 53 37 PM" src="https://github.com/user-attachments/assets/77b55f86-8ff6-4991-9ea3-ba7afe9fc7b1" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 53 26 PM" src="https://github.com/user-attachments/assets/1d0472ba-093c-4177-9c50-f47b12551838" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 52 40 PM" src="https://github.com/user-attachments/assets/0db161bb-efd9-41f3-b28c-838ac1d266d3" />
+<img width="1440" alt="Screenshot 2024-12-30 at 8 52 34 PM" src="https://github.com/user-attachments/assets/6ab628d1-bbe3-43de-bd19-4c238590dbc2" />
+
+<hr>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
